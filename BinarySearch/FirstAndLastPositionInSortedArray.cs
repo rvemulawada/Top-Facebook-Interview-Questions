@@ -1,53 +1,69 @@
 //Link to Leetcode Problem - https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/
 
-public class Solution {
-    // Main function to search for the range of indices containing the target value
-    public int[] SearchRange(int[] nums, int target) {
-       if(nums == null || nums.Length == 0){
-           return new int[] {-1, -1};
-       } 
+public int[] SearchRange(int[] a, int target)
+{
+    int[] result = { -1, -1 };
 
-       int first = findFirst(nums, target);
-       int last = findLast(nums, target);
-       return new int[]{ first, last};
-    }
-      // Function to find the starting index of target value in nums array
-    public int findFirst(int[] nums, int target){
-        int idx = -1;
-        int start = 0, end = nums.Length-1;
+    if (a == null || a.Length == 0)
+        return result;
 
-        while(start <= end){
-            int mid = (start + end)/2;
+    result[0] = FindStartPosition(a, target);
+    result[1] = FindEndPosition(a, target);
 
-            if(nums[mid] >= target){
-                end = mid - 1;
-            }
-            else{
-                start = mid + 1;
-            }
+    return result;
+}
 
-            if(nums[mid] == target) idx = mid;
+public int FindStartPosition(int[] a, int target)
+{
+    int left = 0;
+    int right = a.Length - 1;
+    int start = -1;
+
+    while (left <= right)
+    {
+        int mid = left + (right - left) / 2;
+
+        if (a[mid] == target)
+        {
+            start = mid; // this is start
+            right = mid - 1; // let's see if there is one more on the left
         }
-        return idx;
-    }
-
-    // Function to find the ending index of target value in nums array
-    public int findLast(int[] nums, int target){
-        int idx = -1;
-        int start = 0, end = nums.Length-1;
-
-        while(start <= end){
-            int mid = (start + end)/2;
-
-            if(nums[mid] <= target){
-                start = mid + 1;
-            }
-            else{
-                end = mid - 1;
-            }
-
-            if(nums[mid] == target) idx = mid;
+        else if (target > a[mid])
+        {
+            left = mid + 1;
         }
-        return idx;
+        else
+        {
+            right = mid - 1;
+        }
     }
+
+    return start;
+}
+
+public int FindEndPosition(int[] a, int target)
+{
+    int left = 0;
+    int right = a.Length - 1;
+    int end = -1;
+
+    while (left <= right)
+    {
+        int mid = left + (right - left) / 2;
+
+        if (a[mid] == target)
+        {
+            end = mid; // this is the end
+            left = mid + 1; // let's see if there is one more on the right
+        }
+        else if (target > a[mid])
+        {
+            left = mid + 1;
+        }
+        else
+        {
+            right = mid - 1;
+        }
+    }
+    return end;
 }
