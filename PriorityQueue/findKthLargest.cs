@@ -2,7 +2,7 @@
 
     //Java
     public int findKthLargest(int[] nums, int k) {
-        var pq = new PriorityQueue<Integer>((o1, o2) -> Integer.compare(o1, o2));
+        var pq = new PriorityQueue<Integer>();
        for(var n : nums){
            pq.offer(n);
            if(pq.size() > k){
